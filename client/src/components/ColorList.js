@@ -1,23 +1,54 @@
 import React, { useState } from "react";
 import axios from "axios";
+import {useParams, useHistory} from "react-router-dom";
+import axiosWithAuth from "../utils/axiosWithAuth";
 
-const initialColor = {
-  color: "",
-  code: { hex: "" }
-};
+// const initialColor = {
+//   color: "",
+//   code: { hex: "" },
+//   id
+// };
+
+
 
 const ColorList = ({ colors, updateColors }) => {
+
+  const initialColor = {
+    color: "",
+    code: { hex: "" },
+    id: ""
+  };
+
   console.log(colors);
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
 
+
+  const {id} = useParams();
+
   const editColor = color => {
-    setEditing(true);
-    setColorToEdit(color);
+    axiosWithAuth()
+      .put(`http://localhost:5000/api/colors/${id}`)
+      .then((res)=> {
+        setEditing(true);
+        setColorToEdit(color);
+      })
+      .catch((err)=> {
+        console.log(`oh no!! you have an error while selecting a color:`, err)
+      })
   };
 
   const saveEdit = e => {
     e.preventDefault();
+    // axiosWithAuth()
+    //   .put(`http://localhost:5000/api/colors/${id}`)
+    //   .then((res)=> {
+    //     setEditing(res.data)
+    //     console.log("this is grabbing your color in ColorList:", res.data)
+    //   })
+    //   .catch((err)=> {
+    //     console.log("oh no! Not an error from editing on colorList!:", err)
+    //   })
     // Make a put request to save your updated color
     // think about where will you get the id from...
     // where is is saved right now?
