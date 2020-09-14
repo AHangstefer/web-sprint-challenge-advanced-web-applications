@@ -28,6 +28,7 @@ class Login extends React.Component {
     .then((res)=> {
       localStorage.setItem("token", res.data.payload);
       this.props.history.push("/bubblepage")
+      console.log("this is from Login:", res);
         
     })
     .catch((err)=> {
