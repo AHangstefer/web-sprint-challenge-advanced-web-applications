@@ -44,7 +44,7 @@ const ColorList = ({ colors, updateColors }) => {
   const saveEdit = e => {
     e.preventDefault();
     axiosWithAuth()
-      .put(`http://localhost:5000/api/{colorToEdit.id}`)
+      .put(`http://localhost:5000/api/colors/${updateColors.id}`)
       .then((res)=> {
         setColorToEdit(res.data)
         console.log("this is updating the edited in ColorList:", res.data)
