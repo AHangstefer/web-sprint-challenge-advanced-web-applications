@@ -29,28 +29,29 @@ const ColorList = ({ colors, updateColors }) => {
   //const {id} = useParams();
 
   const editColor = color => {
-    axiosWithAuth()
-      .get(`http://localhost:5000/api/colors/${colorToEdit.id}`)
-      .then((res)=> {
+    //axiosWithAuth()
+      //.get(`/api/colors/${colorToEdit.id}`)
+      //.then((res)=> {
         setEditing(true);
         setColorToEdit(color);
-        console.log("this is the color you've selected:", color)
-      })
-      .catch((err)=> {
-        console.log(`oh no!! you have an error while selecting a color:`, err)
-      })
+        console.log("this is the color you've selected:")
+     // })
+      //.catch((err)=> {
+      //  console.log(`oh no!! you have an error while selecting a color:`, err)
+     // })
   };
 
   const saveEdit = e => {
-    e.preventDefault();
+    e.preventDefault()
     axiosWithAuth()
-      .put(`http://localhost:5000/api/colors/${updateColors.id}`)
+      .put(`/api/colors/${colorToEdit.id}`, colorToEdit )
       .then((res)=> {
-        setColorToEdit(res.data)
+        //setEditing(false);
+        //setColorToEdit(res.data)
         console.log("this is updating the edited in ColorList:", res.data)
       })
       .catch((err)=> {
-        console.log("oh no! Not an error from editing on colorList!:", err)
+        console.log("oh no! An error trying put update your color on colorList!:", err)
       })
     // Make a put request to save your updated color
     // think about where will you get the id from...
@@ -58,7 +59,16 @@ const ColorList = ({ colors, updateColors }) => {
   };
 
   const deleteColor = color => {
+    axiosWithAuth()
+    .delete(`/api/colors/${color.id}`)
     // make a delete request to delete this color
+    .then((res)=> {
+      console.log ("deleting this color:", res.data)
+      setColorToEdit(initialColor)
+    })
+    .catch((err)=> {
+      console.log("you're got an error trying to delete in colorlist:",err)
+    })
   };
 
   return (
